@@ -3,7 +3,8 @@
 Next.js App Router scaffold with:
 
 - Next.js 16 + TypeScript + Tailwind CSS
-- Supabase client (`@supabase/supabase-js` + `@supabase/ssr`)
+- Clerk authentication (`@clerk/nextjs`)
+- Supabase database client (`@supabase/supabase-js`)
 - Vercel-ready environment workflow
 
 ## 1) Install and run locally
@@ -24,6 +25,10 @@ Populate `.env.local`:
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+CLERK_SECRET_KEY=...
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
 ```
 
 Get these from the Labs Supabase project (non-production). Never commit real secrets.
