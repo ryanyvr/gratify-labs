@@ -1,24 +1,25 @@
 import { getCurrentUser } from "@/lib/supabase/getCurrentUser";
 import { createServiceRoleClient } from "@/lib/supabase/server";
-import type { AppRole } from "@/lib/types/auth";
 
 type FeatureFlag = {
-  allowed_roles: string[];
-  allowed_user_ids: string[];
+  allowed_roles: string[] | null;
+  allowed_user_ids: string[] | null;
   enabled: boolean;
 };
 
-export async function getUserRole(): Promise<AppRole> {
+export async function getUserRole(userId: string): Promise<string> {
   const user = await getCurrentUser();
-  return user?.role ?? "iso_user";
+  if (!user || user.id !== userId) {
+    return "iso_user";
+  }
+  return user.role ?? "iso_user";
 }
 
-export async function checkFeatureAccess(featureSlug: string): Promise<boolean> {
-  const user = await getCurrentUser();
-  if (!user) {
-    return false;
-  }
-
+export async function checkFeatureAccess(
+  featureSlug: string,
+  userRole: string,
+  userId: string,
+): Promise<boolean> {
   const supabase = createServiceRoleClient();
   const { data, error } = await supabase
     .from("feature_flags")
@@ -31,13 +32,16 @@ export async function checkFeatureAccess(featureSlug: string): Promise<boolean> 
     return false;
   }
 
-  if (data.allowed_user_ids.includes(user.id)) {
+  const allowedUserIds = data.allowed_user_ids ?? [];
+  const allowedRoles = data.allowed_roles ?? [];
+
+  if (allowedUserIds.includes(userId)) {
     return true;
   }
 
-  return data.allowed_roles.includes(user.role);
+  return requireRole(allowedRoles, userRole);
 }
 
-export function requireRole(userRole: AppRole, allowedRoles: AppRole[]): boolean {
+export function requireRole(allowedRoles: string[], userRole: string): boolean {
   return allowedRoles.includes(userRole);
 }
