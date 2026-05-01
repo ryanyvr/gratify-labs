@@ -10,10 +10,6 @@ export default function DeniedToast({ show }: DeniedToastProps) {
   const [isVisible, setIsVisible] = useState(show);
 
   useEffect(() => {
-    setIsVisible(show);
-  }, [show]);
-
-  useEffect(() => {
     if (!isVisible) {
       return;
     }
