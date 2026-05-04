@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/Badge";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { getPartnerSummary, getPortfolioSummary } from "@/lib/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const [portfolioData, partnerData] = await Promise.all([
     getPortfolioSummary(),

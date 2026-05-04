@@ -36,10 +36,11 @@ export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
             />
             <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}`} />
             <Tooltip
-              formatter={(value: number, name) => {
-                if (name === "volume") return [formatCurrency(value), "Volume"];
-                if (name === "markup_bps") return [formatBPS(value), "Markup BPS"];
-                return [value, name];
+              formatter={(value, name) => {
+                const n = typeof value === "number" ? value : Number(value);
+                if (name === "volume") return [formatCurrency(n), "Volume"];
+                if (name === "markup_bps") return [formatBPS(n), "Markup BPS"];
+                return [String(value ?? ""), String(name ?? "")];
               }}
               labelFormatter={(label) => formatMonthLabel(String(label))}
             />

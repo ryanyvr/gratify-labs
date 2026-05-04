@@ -37,7 +37,11 @@ export function VolumeDonut({ data }: VolumeDonutProps) {
                 <Cell key={entry.name} fill={entry.fill} />
               ))}
             </Pie>
-            <Tooltip formatter={(value: number) => formatCurrency(value)} />
+            <Tooltip
+              formatter={(value) =>
+                formatCurrency(typeof value === "number" ? value : Number(value))
+              }
+            />
             <Legend />
           </PieChart>
         </ResponsiveContainer>

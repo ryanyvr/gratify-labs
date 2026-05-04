@@ -20,6 +20,8 @@ import type { PortfolioMerchant } from "@/lib/types";
 
 const ORG_ID = "00000000-0000-0000-0000-000000000001";
 
+export const dynamic = "force-dynamic";
+
 interface MerchantPageProps {
   params: Promise<{ merchantId: string }>;
 }
