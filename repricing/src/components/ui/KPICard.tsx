@@ -4,6 +4,7 @@ import clsx from "clsx";
 interface KPICardProps {
   label: string;
   value: string;
+  valueClassName?: string;
   subtitle?: string;
   icon: LucideIcon;
   trend?: "up" | "down" | "neutral";
@@ -19,6 +20,7 @@ const trendColorClasses: Record<NonNullable<KPICardProps["trendColor"]>, string>
 export function KPICard({
   label,
   value,
+  valueClassName,
   subtitle,
   icon: Icon,
   trend,
@@ -30,7 +32,9 @@ export function KPICard({
     <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
       <Icon className="mb-4 h-5 w-5 text-[#9CA3AF]" />
       <p className="text-[13px] font-medium text-[#6B7280]">{label}</p>
-      <p className="mt-1 text-[32px] font-bold leading-tight text-[#1A1A2E]">{value}</p>
+      <p className={clsx("mt-1 text-[32px] font-bold leading-tight text-[#1A1A2E]", valueClassName)}>
+        {value}
+      </p>
       {subtitle ? (
         <p className={clsx("mt-2 text-xs", trendColorClasses[trendColor])}>
           {trendPrefix}
