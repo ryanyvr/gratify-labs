@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { checkFeatureAccess, getUserRole } from "@/lib/rbac";
 
-const isPublicRoute = createRouteMatcher(["/", "/login(.*)", "/sign-in(.*)"]);
+const isPublicRoute = createRouteMatcher(["/", "/login(.*)", "/sign-in(.*)", "/sign-up(.*)"]);
 const isFeatureRoute = createRouteMatcher(["/features/(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {

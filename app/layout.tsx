@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ClerkProvider, Show, SignInButton, UserButton } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -29,20 +29,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <ClerkProvider>
-          <header className="border-b border-black/10 px-4 py-3 dark:border-white/10">
-            <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-              <div className="text-sm font-semibold tracking-wide">Gratify Labs</div>
-              <Show when="signed-out">
-                <SignInButton mode="redirect" />
-              </Show>
-              <Show when="signed-in">
-                <UserButton />
-              </Show>
-            </div>
-          </header>
-          {children}
-        </ClerkProvider>
+        <ClerkProvider>{children}</ClerkProvider>
       </body>
     </html>
   );
