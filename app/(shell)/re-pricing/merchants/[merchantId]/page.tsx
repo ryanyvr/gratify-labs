@@ -15,7 +15,7 @@ import {
   formatPercent,
 } from "@/lib/repricing/formatters";
 import { getMerchantFeeDecomp, getMerchantMonthly, getMerchantNetworkFees } from "@/lib/repricing/queries";
-import { supabase } from "@/lib/repricing/supabase";
+import { getRepricingSupabase } from "@/lib/repricing/supabase";
 import type { PortfolioMerchant } from "@/lib/repricing/types";
 
 const ORG_ID = "00000000-0000-0000-0000-000000000001";
@@ -31,7 +31,7 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
   const merchantId = decodeURIComponent(encodedMerchantId);
 
   const [{ data: merchant, error }, monthlyData, feeData, networkFees] = await Promise.all([
-    supabase
+    getRepricingSupabase()
       .from("mv_portfolio_summary")
       .select("*")
       .eq("org_id", ORG_ID)

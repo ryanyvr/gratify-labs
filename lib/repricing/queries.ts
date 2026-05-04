@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { getRepricingSupabase } from "./supabase";
 import type {
   FeeDecomposition,
   MonthlySummary,
@@ -10,6 +10,7 @@ import type {
 const ORG_ID = "00000000-0000-0000-0000-000000000001";
 
 export async function getPortfolioSummary(): Promise<PortfolioMerchant[]> {
+  const supabase = getRepricingSupabase();
   const { data, error } = await supabase
     .from("mv_portfolio_summary")
     .select("*")
@@ -21,6 +22,7 @@ export async function getPortfolioSummary(): Promise<PortfolioMerchant[]> {
 }
 
 export async function getPartnerSummary(): Promise<PartnerSummary[]> {
+  const supabase = getRepricingSupabase();
   const { data, error } = await supabase
     .from("mv_partner_summary")
     .select("*")
@@ -32,6 +34,7 @@ export async function getPartnerSummary(): Promise<PartnerSummary[]> {
 }
 
 export async function getMerchantMonthly(merchantId: string): Promise<MonthlySummary[]> {
+  const supabase = getRepricingSupabase();
   const { data, error } = await supabase
     .from("mv_monthly_summary")
     .select("*")
@@ -44,6 +47,7 @@ export async function getMerchantMonthly(merchantId: string): Promise<MonthlySum
 }
 
 export async function getMerchantFeeDecomp(merchantId: string): Promise<FeeDecomposition[]> {
+  const supabase = getRepricingSupabase();
   const { data, error } = await supabase
     .from("mv_fee_decomposition")
     .select("*")
@@ -56,6 +60,7 @@ export async function getMerchantFeeDecomp(merchantId: string): Promise<FeeDecom
 }
 
 export async function getMerchantNetworkFees(merchantId: string): Promise<NetworkFeeSummary[]> {
+  const supabase = getRepricingSupabase();
   const { data, error } = await supabase
     .from("mv_network_fee_summary")
     .select("*")
@@ -68,6 +73,7 @@ export async function getMerchantNetworkFees(merchantId: string): Promise<Networ
 }
 
 export async function getPartnerMerchants(partnerName: string): Promise<PortfolioMerchant[]> {
+  const supabase = getRepricingSupabase();
   const { data, error } = await supabase
     .from("mv_portfolio_summary")
     .select("*")
