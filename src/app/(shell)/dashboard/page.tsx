@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SignOutButton } from "@clerk/nextjs";
 
-import DeniedToast from "@/app/(shell)/dashboard/DeniedToast";
+import DeniedToast from "./DeniedToast";
 import { getCurrentUser } from "@/lib/supabase/getCurrentUser";
 
 type DashboardPageProps = {

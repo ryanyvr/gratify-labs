@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-import { checkFeatureAccess, getUserRole } from "@/lib/rbac";
+import { checkFeatureAccess } from "@/lib/rbac";
 
 const isPublicRoute = createRouteMatcher(["/", "/login(.*)", "/sign-in(.*)", "/sign-up(.*)"]);
 const isFeatureRoute = createRouteMatcher(["/features/(.*)"]);
@@ -11,12 +11,16 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
 
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
   if (!userId) {
     return NextResponse.next();
   }
 
-  const userRole = await getUserRole(userId);
+  const claims = sessionClaims as
+    | { publicMetadata?: { role?: string }; public_metadata?: { role?: string } }
+    | undefined;
+  const userRole =
+    claims?.publicMetadata?.role ?? claims?.public_metadata?.role ?? "iso_user";
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set("x-user-role", userRole);
 
