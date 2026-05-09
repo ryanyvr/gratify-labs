@@ -68,6 +68,15 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
         />
         <KPICard label="Eff Rate" value={formatPercent(merchant.eff_rate_pct)} icon={Percent} />
       </div>
+      <div className="grid grid-cols-3 gap-4">
+        <KPICard label="Monthly Fees" value={formatCurrencyExact(merchant.monthly_fees)} icon={DollarSign} />
+        <KPICard
+          label="Network Costs"
+          value={formatCurrencyExact(merchant.network_costs)}
+          icon={DollarSign}
+        />
+        <KPICard label="Net Revenue" value={formatCurrency(merchant.net_revenue)} icon={TrendingUp} />
+      </div>
 
       <div className="grid grid-cols-2 gap-5">
         <MonthlyTrendChart data={monthlyData} />
