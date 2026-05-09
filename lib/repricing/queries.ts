@@ -84,3 +84,35 @@ export async function getPartnerMerchants(partnerName: string): Promise<Portfoli
   if (error) throw error;
   return (data ?? []) as PortfolioMerchant[];
 }
+
+export async function getPartnerTargetBps(
+  partnerName: string,
+  mcc: number | null,
+): Promise<number | null> {
+  const supabase = getRepricingSupabase();
+
+  const exactQuery = supabase
+    .from("partner_config")
+    .select("target_bps")
+    .eq("org_id", ORG_ID)
+    .eq("partner_name", partnerName);
+
+  const { data: exactData, error: exactError } =
+    mcc === null ? await exactQuery.is("mcc", null).maybeSingle() : await exactQuery.eq("mcc", mcc).maybeSingle();
+
+  if (exactError) throw exactError;
+  if (exactData?.target_bps != null) {
+    return Number(exactData.target_bps);
+  }
+
+  const { data: fallbackData, error: fallbackError } = await supabase
+    .from("partner_config")
+    .select("target_bps")
+    .eq("org_id", ORG_ID)
+    .eq("partner_name", partnerName)
+    .is("mcc", null)
+    .maybeSingle();
+
+  if (fallbackError) throw fallbackError;
+  return fallbackData?.target_bps != null ? Number(fallbackData.target_bps) : null;
+}

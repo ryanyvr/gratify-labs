@@ -2,6 +2,7 @@ import { DollarSign, Hash, Percent, Receipt, TrendingUp } from "lucide-react";
 import { FeeDecomposition } from "@/components/repricing/FeeDecomposition";
 import { MonthlyTrendChart } from "@/components/repricing/MonthlyTrendChart";
 import { NetworkFeesTable } from "@/components/repricing/NetworkFeesTable";
+import { ScenarioBuilder } from "@/components/repricing/ScenarioBuilder";
 import { VolumeDonut } from "@/components/repricing/VolumeDonut";
 import { WaterfallChart } from "@/components/repricing/WaterfallChart";
 import { Badge } from "@/components/repricing/ui/Badge";
@@ -15,7 +16,12 @@ import {
   formatNumber,
   formatPercent,
 } from "@/lib/repricing/formatters";
-import { getMerchantFeeDecomp, getMerchantMonthly, getMerchantNetworkFees } from "@/lib/repricing/queries";
+import {
+  getMerchantFeeDecomp,
+  getMerchantMonthly,
+  getMerchantNetworkFees,
+  getPartnerTargetBps,
+} from "@/lib/repricing/queries";
 import { getRepricingSupabase } from "@/lib/repricing/supabase";
 import type { PortfolioMerchant } from "@/lib/repricing/types";
 
@@ -46,6 +52,8 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
   if (error || !merchant) {
     throw error ?? new Error("Merchant not found");
   }
+
+  const targetBps = await getPartnerTargetBps(merchant.partner_name, merchant.mcc);
 
   return (
     <div className="space-y-5">
@@ -83,6 +91,8 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
         <MonthlyTrendChart data={monthlyData} />
         <WaterfallChart data={monthlyData} period={12} />
       </div>
+
+      <ScenarioBuilder data={monthlyData} targetBps={targetBps} />
 
       <div className="grid grid-cols-3 gap-5">
         <div className="col-span-2">
