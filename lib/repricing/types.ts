@@ -15,6 +15,9 @@ export interface PortfolioMerchant {
   markup_pct: number;
   markup_bps: number;
   eff_rate_pct: number;
+  monthly_fees: number;
+  network_costs: number;
+  net_revenue: number;
   first_txn_date: string;
   last_txn_date: string;
   months_active: number;
@@ -53,6 +56,9 @@ export interface MonthlySummary {
   markup_pct: number;
   markup_bps: number;
   eff_rate_pct: number;
+  monthly_fees: number;
+  network_costs: number;
+  net_revenue: number;
 }
 
 export interface FeeDecomposition {
