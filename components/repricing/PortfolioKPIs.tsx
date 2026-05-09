@@ -2,7 +2,7 @@
 
 import { Building2, DollarSign, Percent, TrendingUp } from "lucide-react";
 import { KPICard } from "@/components/repricing/ui/KPICard";
-import { bpsColor, formatBPS, formatCurrency, formatPercent } from "@/lib/repricing/formatters";
+import { bpsColor, formatBPS, formatCurrency, formatEffRate } from "@/lib/repricing/formatters";
 import type { PortfolioMerchant } from "@/lib/repricing/types";
 
 interface PortfolioKPIsProps {
@@ -14,9 +14,10 @@ export function PortfolioKPIs({ data }: PortfolioKPIsProps) {
   const totalVolume = data.reduce((sum, row) => sum + row.volume, 0);
   const totalMarkup = data.reduce((sum, row) => sum + row.markup, 0);
   const totalFees = data.reduce((sum, row) => sum + row.total_fees, 0);
+  const totalMonthlyFees = data.reduce((sum, row) => sum + row.monthly_fees, 0);
   const totalNetRevenue = data.reduce((sum, row) => sum + row.net_revenue, 0);
   const avgMarkupBps = totalVolume > 0 ? (totalMarkup / totalVolume) * 10000 : 0;
-  const avgEffectiveRate = totalVolume > 0 ? totalFees / totalVolume : 0;
+  const avgEffectiveRate = totalVolume > 0 ? (totalFees + totalMonthlyFees) / totalVolume : 0;
 
   return (
     <div className="grid grid-cols-5 gap-5">
@@ -33,7 +34,7 @@ export function PortfolioKPIs({ data }: PortfolioKPIsProps) {
       />
       <KPICard
         label="Avg Effective Rate"
-        value={formatPercent(avgEffectiveRate)}
+        value={formatEffRate(avgEffectiveRate)}
         icon={Percent}
       />
     </div>

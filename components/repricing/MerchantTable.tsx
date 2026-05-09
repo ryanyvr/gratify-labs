@@ -9,6 +9,7 @@ import {
   formatBPS,
   formatCurrency,
   formatCurrencyExact,
+  formatEffRate,
   formatNumber,
   formatPercent,
 } from "@/lib/repricing/formatters";
@@ -68,10 +69,13 @@ export function MerchantTable({ data }: MerchantTableProps) {
         ),
       },
       {
-        key: "eff_rate_pct",
+        key: "all_in_eff_rate",
         label: "Eff Rate",
         align: "right" as const,
-        format: (value: unknown) => formatPercent(Number(value ?? 0)),
+        format: (_value: unknown, row: PortfolioMerchant) => {
+          const allInER = row.volume > 0 ? (row.total_fees + row.monthly_fees) / row.volume : 0;
+          return formatEffRate(allInER);
+        },
       },
       {
         key: "monthly_fees",
