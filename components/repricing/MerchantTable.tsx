@@ -73,6 +73,24 @@ export function MerchantTable({ data }: MerchantTableProps) {
         align: "right" as const,
         format: (value: unknown) => formatPercent(Number(value ?? 0)),
       },
+      {
+        key: "monthly_fees",
+        label: "Monthly Fees",
+        align: "right" as const,
+        format: (value: unknown) => formatCurrencyExact(Number(value ?? 0)),
+      },
+      {
+        key: "network_costs",
+        label: "Network Costs",
+        align: "right" as const,
+        format: (value: unknown) => formatCurrencyExact(Number(value ?? 0)),
+      },
+      {
+        key: "net_revenue",
+        label: "Net Revenue",
+        align: "right" as const,
+        format: (value: unknown) => formatCurrencyExact(Number(value ?? 0)),
+      },
     ],
     [],
   );

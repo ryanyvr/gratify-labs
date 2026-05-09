@@ -40,6 +40,9 @@ export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
                 const n = typeof value === "number" ? value : Number(value);
                 if (name === "volume") return [formatCurrency(n), "Volume"];
                 if (name === "markup_bps") return [formatBPS(n), "Markup BPS"];
+                if (name === "monthly_fees") return [formatCurrency(n), "Monthly Fees"];
+                if (name === "network_costs") return [formatCurrency(n), "Network Costs"];
+                if (name === "net_revenue") return [formatCurrency(n), "Net Revenue"];
                 return [String(value ?? ""), String(name ?? "")];
               }}
               labelFormatter={(label) => formatMonthLabel(String(label))}
