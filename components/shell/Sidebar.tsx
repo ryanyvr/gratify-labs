@@ -21,7 +21,11 @@ export function Sidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 flex w-[260px] flex-col border-r border-border-card bg-white">
       <div className="border-b border-border-card px-6 py-6">
-        <p className="text-xl font-bold tracking-wide text-text-primary">GRATIFY</p>
+        <img
+          src="https://cdn.prod.website-files.com/68a8894d1825fae84cef756c/68a88a91a869822cd1e2c5dd_Blue%20logo%20-%20no%20background-p-500.png"
+          alt="Gratify"
+          className="h-7 w-auto"
+        />
       </div>
 
       <div className="px-4 pt-6">

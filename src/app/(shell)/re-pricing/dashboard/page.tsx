@@ -1,4 +1,4 @@
-import { MerchantTable } from "@/components/repricing/MerchantTable";
+import { MerchantSearch } from "@/components/repricing/MerchantSearch";
 import { PartnerCards } from "@/components/repricing/PartnerCards";
 import { PortfolioKPIs } from "@/components/repricing/PortfolioKPIs";
 import { Badge } from "@/components/repricing/ui/Badge";
@@ -22,7 +22,7 @@ export default async function RePricingDashboardPage() {
         <h2 className="text-lg font-semibold text-[#1A1A2E]">Merchants</h2>
         <Badge label={String(portfolioData.length)} variant="default" />
       </div>
-      <MerchantTable data={portfolioData} />
+      <MerchantSearch data={portfolioData} />
     </div>
   );
 }
