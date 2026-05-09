@@ -1,49 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { aggregateLTM, computeScenario, PRODUCTS, type Scenario } from "@/lib/repricing/scenario";
+import { PRODUCTS, type Scenario, type ScenarioResult } from "@/lib/repricing/scenario";
 import { formatBPS, formatCurrency, formatPercent } from "@/lib/repricing/formatters";
-import type { MonthlySummary } from "@/lib/repricing/types";
-
 interface ScenarioBuilderProps {
-  data: MonthlySummary[];
   targetBps: number | null;
+  scenarios: Record<EditableScenarioKey, Scenario>;
+  results: Record<ScenarioKey, ScenarioResult>;
+  onScenarioChange: (key: EditableScenarioKey, field: keyof Scenario, value: string | number) => void;
 }
 
 type ScenarioKey = "current" | "scenarioA" | "scenarioB" | "scenarioC" | "counter";
-
-const EMPTY_SCENARIO: Scenario = {
-  marginPct: 0,
-  txnFee: 0,
-  p1: "None",
-  p2: "None",
-  p3: "None",
-};
-
-const DEFAULT_SCENARIOS: Record<Exclude<ScenarioKey, "current">, Scenario> = {
-  scenarioA: {
-    marginPct: 10,
-    txnFee: 0,
-    p1: "Gross Billing 0.07%",
-    p2: "Non-PCI (Standard $69.95)",
-    p3: "Account Updater $1 per",
-  },
-  scenarioB: {
-    marginPct: 25,
-    txnFee: 0,
-    p1: "Gross Billing 0.07%",
-    p2: "None",
-    p3: "None",
-  },
-  scenarioC: {
-    marginPct: -10,
-    txnFee: 0,
-    p1: "Gross Billing 0.07%",
-    p2: "Non-PCI (Mid $59.95)",
-    p3: "Account Updater $1 per",
-  },
-  counter: EMPTY_SCENARIO,
-};
+type EditableScenarioKey = Exclude<ScenarioKey, "current">;
 
 const COLUMNS: Array<{ key: ScenarioKey; label: string }> = [
   { key: "current", label: "Current" },
@@ -65,34 +32,7 @@ function signClass(value: number): string {
   return "text-text-primary";
 }
 
-export function ScenarioBuilder({ data, targetBps }: ScenarioBuilderProps) {
-  const [scenarios, setScenarios] = useState(DEFAULT_SCENARIOS);
-  const ltm = useMemo(() => aggregateLTM(data, 12), [data]);
-
-  const results = useMemo(() => {
-    return {
-      current: computeScenario(EMPTY_SCENARIO, ltm),
-      scenarioA: computeScenario(scenarios.scenarioA, ltm),
-      scenarioB: computeScenario(scenarios.scenarioB, ltm),
-      scenarioC: computeScenario(scenarios.scenarioC, ltm),
-      counter: computeScenario(scenarios.counter, ltm),
-    };
-  }, [ltm, scenarios]);
-
-  const setScenarioValue = <K extends Exclude<ScenarioKey, "current">>(
-    key: K,
-    field: keyof Scenario,
-    value: string | number,
-  ) => {
-    setScenarios((prev) => ({
-      ...prev,
-      [key]: {
-        ...prev[key],
-        [field]: value,
-      },
-    }));
-  };
-
+export function ScenarioBuilder({ targetBps, scenarios, results, onScenarioChange }: ScenarioBuilderProps) {
   return (
     <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
       <h3 className="mb-4 text-base font-semibold text-[#1A1A2E]">Scenario Builder</h3>
@@ -118,7 +58,7 @@ export function ScenarioBuilder({ data, targetBps }: ScenarioBuilderProps) {
                     type="number"
                     value={scenarios[key].marginPct}
                     onChange={(event) =>
-                      setScenarioValue(key, "marginPct", Number(event.target.value || 0))
+                      onScenarioChange(key, "marginPct", Number(event.target.value || 0))
                     }
                     className="w-24 rounded border border-border-card px-2 py-1 text-right"
                   />
@@ -135,7 +75,7 @@ export function ScenarioBuilder({ data, targetBps }: ScenarioBuilderProps) {
                     step="0.01"
                     value={scenarios[key].txnFee}
                     onChange={(event) =>
-                      setScenarioValue(key, "txnFee", Number(event.target.value || 0))
+                      onScenarioChange(key, "txnFee", Number(event.target.value || 0))
                     }
                     className="w-24 rounded border border-border-card px-2 py-1 text-right"
                   />
@@ -150,7 +90,7 @@ export function ScenarioBuilder({ data, targetBps }: ScenarioBuilderProps) {
                   <td key={key} className="p-3 text-right">
                     <select
                       value={scenarios[key][slot]}
-                      onChange={(event) => setScenarioValue(key, slot, event.target.value)}
+                      onChange={(event) => onScenarioChange(key, slot, event.target.value)}
                       className="w-full rounded border border-border-card px-2 py-1 text-xs"
                     >
                       {PRODUCTS.map((product) => (

@@ -2,7 +2,7 @@ import { DollarSign, Hash, Percent, Receipt, TrendingUp } from "lucide-react";
 import { FeeDecomposition } from "@/components/repricing/FeeDecomposition";
 import { MonthlyTrendChart } from "@/components/repricing/MonthlyTrendChart";
 import { NetworkFeesTable } from "@/components/repricing/NetworkFeesTable";
-import { ScenarioBuilder } from "@/components/repricing/ScenarioBuilder";
+import { ScenarioWorkbench } from "@/components/repricing/ScenarioWorkbench";
 import { VolumeDonut } from "@/components/repricing/VolumeDonut";
 import { WaterfallChart } from "@/components/repricing/WaterfallChart";
 import { Badge } from "@/components/repricing/ui/Badge";
@@ -92,7 +92,7 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
         <WaterfallChart data={monthlyData} period={12} />
       </div>
 
-      <ScenarioBuilder data={monthlyData} targetBps={targetBps} />
+      <ScenarioWorkbench data={monthlyData} targetBps={targetBps} />
 
       <div className="grid grid-cols-3 gap-5">
         <div className="col-span-2">
