@@ -3,6 +3,7 @@ import { FeeDecomposition } from "@/components/repricing/FeeDecomposition";
 import { MonthlyTrendChart } from "@/components/repricing/MonthlyTrendChart";
 import { NetworkFeesTable } from "@/components/repricing/NetworkFeesTable";
 import { VolumeDonut } from "@/components/repricing/VolumeDonut";
+import { WaterfallChart } from "@/components/repricing/WaterfallChart";
 import { Badge } from "@/components/repricing/ui/Badge";
 import { KPICard } from "@/components/repricing/ui/KPICard";
 import { PageHeader } from "@/components/repricing/ui/PageHeader";
@@ -80,6 +81,7 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
 
       <div className="grid grid-cols-2 gap-5">
         <MonthlyTrendChart data={monthlyData} />
+        <WaterfallChart data={monthlyData} period={12} />
       </div>
 
       <div className="grid grid-cols-3 gap-5">
