@@ -125,17 +125,33 @@ export function WaterfallChart({ data, period }: WaterfallChartProps) {
         ctx.setLineDash([4, 3]);
 
         for (let index = 0; index < meta.data.length - 1; index += 1) {
-          const currentElement = meta.data[index] as { x: number; width: number };
-          const nextElement = meta.data[index + 1] as { x: number; width: number };
+          const currentElement = meta.data[index];
+          const nextElement = meta.data[index + 1];
           const exitValue = bars[index]?.exit;
 
-          if (exitValue === undefined) {
+          if (
+            exitValue === undefined ||
+            !(currentElement instanceof BarElement) ||
+            !(nextElement instanceof BarElement)
+          ) {
+            continue;
+          }
+
+          const { x: currentX, width: currentWidth } = currentElement.getProps(["x", "width"], true);
+          const { x: nextX, width: nextWidth } = nextElement.getProps(["x", "width"], true);
+
+          if (
+            currentX === null ||
+            currentWidth === null ||
+            nextX === null ||
+            nextWidth === null
+          ) {
             continue;
           }
 
           const yLine = chart.scales.y.getPixelForValue(exitValue);
-          const x1 = currentElement.x + currentElement.width / 2;
-          const x2 = nextElement.x - nextElement.width / 2;
+          const x1 = currentX + currentWidth / 2;
+          const x2 = nextX - nextWidth / 2;
 
           ctx.beginPath();
           ctx.moveTo(x1, yLine);
