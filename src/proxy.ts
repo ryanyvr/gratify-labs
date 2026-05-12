@@ -7,6 +7,13 @@ const isPublicRoute = createRouteMatcher(["/", "/login(.*)", "/sign-in(.*)", "/s
 const isFeatureRoute = createRouteMatcher(["/features/(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
+  if (req.nextUrl.pathname === "/") {
+    const { userId } = await auth();
+    const url = req.nextUrl.clone();
+    url.pathname = userId ? "/dashboard" : "/login";
+    return NextResponse.redirect(url);
+  }
+
   if (!isPublicRoute(req)) {
     await auth.protect();
   }

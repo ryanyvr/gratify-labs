@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
-
+/**
+ * `/` is handled in `src/proxy.ts` (redirect to `/login` or `/dashboard`).
+ * This route exists as a fallback only.
+ */
 export default function Home() {
-  redirect("/dashboard");
+  return null;
 }

@@ -17,7 +17,17 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     return null;
   }
 
-  const user = await currentUser();
+  let user;
+  try {
+    user = await currentUser();
+  } catch {
+    return {
+      id: userId,
+      email: "",
+      role: "iso_user",
+    };
+  }
+
   const email = user?.emailAddresses.find(
     (address) => address.id === user.primaryEmailAddressId,
   )?.emailAddress;
