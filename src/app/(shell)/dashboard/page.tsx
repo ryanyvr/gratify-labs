@@ -34,14 +34,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         >
           Open shell feature
         </Link>
-        <SignOutButton signOutOptions={{ redirectUrl: "/login" }}>
-          <button
-            className="cursor-pointer rounded-md border border-black/10 px-3 py-2 text-sm dark:border-white/10"
-            type="button"
-          >
-            Sign out
-          </button>
-        </SignOutButton>
+        <SignOutButton redirectUrl="/login"><button className="cursor-pointer rounded-md border border-black/10 px-3 py-2 text-sm dark:border-white/10" type="button">Sign out</button></SignOutButton>
       </div>
     </main>
   );

@@ -22,7 +22,7 @@ import {
   getMerchantNetworkFees,
   getPartnerTargetBps,
 } from "@/lib/repricing/queries";
-import { getRepricingSupabase } from "@/lib/repricing/supabase";
+import { assertNoSupabaseError, getRepricingSupabase } from "@/lib/repricing/supabase";
 import type { PortfolioMerchant } from "@/lib/repricing/types";
 
 const ORG_ID = "00000000-0000-0000-0000-000000000001";
@@ -49,8 +49,9 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
     getMerchantNetworkFees(merchantId),
   ]);
 
-  if (error || !merchant) {
-    throw error ?? new Error("Merchant not found");
+  assertNoSupabaseError(error, `Merchant profile (${merchantId})`);
+  if (!merchant) {
+    throw new Error(`Merchant not found: ${merchantId}`);
   }
 
   const targetBps = await getPartnerTargetBps(merchant.partner_name, merchant.mcc);

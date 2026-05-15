@@ -1,4 +1,4 @@
-import { getRepricingSupabase } from "./supabase";
+import { assertNoSupabaseError, getRepricingSupabase } from "./supabase";
 import type {
   FeeDecomposition,
   MonthlySummary,
@@ -17,7 +17,7 @@ export async function getPortfolioSummary(): Promise<PortfolioMerchant[]> {
     .eq("org_id", ORG_ID)
     .order("volume", { ascending: false });
 
-  if (error) throw error;
+  assertNoSupabaseError(error, "getPortfolioSummary");
   return (data ?? []) as PortfolioMerchant[];
 }
 
@@ -29,7 +29,7 @@ export async function getPartnerSummary(): Promise<PartnerSummary[]> {
     .eq("org_id", ORG_ID)
     .order("total_volume", { ascending: false });
 
-  if (error) throw error;
+  assertNoSupabaseError(error, "getPartnerSummary");
   return (data ?? []) as PartnerSummary[];
 }
 
@@ -42,7 +42,7 @@ export async function getMerchantMonthly(merchantId: string): Promise<MonthlySum
     .eq("merchant_id", merchantId)
     .order("month", { ascending: true });
 
-  if (error) throw error;
+  assertNoSupabaseError(error, "getMerchantMonthly");
   return (data ?? []) as MonthlySummary[];
 }
 
@@ -55,7 +55,7 @@ export async function getMerchantFeeDecomp(merchantId: string): Promise<FeeDecom
     .eq("merchant_id", merchantId)
     .order("volume", { ascending: false });
 
-  if (error) throw error;
+  assertNoSupabaseError(error, "getMerchantFeeDecomp");
   return (data ?? []) as FeeDecomposition[];
 }
 
@@ -68,7 +68,7 @@ export async function getMerchantNetworkFees(merchantId: string): Promise<Networ
     .eq("merchant_id", merchantId)
     .order("total_fee", { ascending: false });
 
-  if (error) throw error;
+  assertNoSupabaseError(error, "getMerchantNetworkFees");
   return (data ?? []) as NetworkFeeSummary[];
 }
 
@@ -81,7 +81,7 @@ export async function getPartnerMerchants(partnerName: string): Promise<Portfoli
     .eq("partner_name", partnerName)
     .order("volume", { ascending: false });
 
-  if (error) throw error;
+  assertNoSupabaseError(error, "getPartnerMerchants");
   return (data ?? []) as PortfolioMerchant[];
 }
 
@@ -100,7 +100,7 @@ export async function getPartnerTargetBps(
   const { data: exactData, error: exactError } =
     mcc === null ? await exactQuery.is("mcc", null).maybeSingle() : await exactQuery.eq("mcc", mcc).maybeSingle();
 
-  if (exactError) throw exactError;
+  assertNoSupabaseError(exactError, "getPartnerTargetBps (exact)");
   if (exactData?.target_bps != null) {
     return Number(exactData.target_bps);
   }
@@ -113,6 +113,6 @@ export async function getPartnerTargetBps(
     .is("mcc", null)
     .maybeSingle();
 
-  if (fallbackError) throw fallbackError;
+  assertNoSupabaseError(fallbackError, "getPartnerTargetBps (fallback)");
   return fallbackData?.target_bps != null ? Number(fallbackData.target_bps) : null;
 }

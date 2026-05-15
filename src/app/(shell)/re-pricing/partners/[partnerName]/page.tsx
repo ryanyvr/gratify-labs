@@ -5,7 +5,7 @@ import { KPICard } from "@/components/repricing/ui/KPICard";
 import { PageHeader } from "@/components/repricing/ui/PageHeader";
 import { bpsColor, formatBPS, formatCurrency, formatNumber } from "@/lib/repricing/formatters";
 import { getPartnerMerchants } from "@/lib/repricing/queries";
-import { getRepricingSupabase } from "@/lib/repricing/supabase";
+import { assertNoSupabaseError, getRepricingSupabase } from "@/lib/repricing/supabase";
 import type { PartnerSummary } from "@/lib/repricing/types";
 
 const ORG_ID = "00000000-0000-0000-0000-000000000001";
@@ -30,8 +30,9 @@ export default async function RePricingPartnerPage({ params }: PartnerPageProps)
     getPartnerMerchants(partnerName),
   ]);
 
-  if (error || !partner) {
-    throw error ?? new Error("Partner not found");
+  assertNoSupabaseError(error, `Partner summary (${partnerName})`);
+  if (!partner) {
+    throw new Error(`Partner not found: ${partnerName}`);
   }
 
   return (
