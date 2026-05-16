@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Badge } from "@/components/repricing/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { DataTable } from "@/components/repricing/ui/DataTable";
 import {
   bpsColor,
@@ -30,10 +30,9 @@ export function MerchantTable({ data }: MerchantTableProps) {
         key: "pricing_type",
         label: "Pricing",
         format: (value: unknown) => (
-          <Badge
-            label={String(value ?? "Unknown")}
-            variant={String(value ?? "").toUpperCase() === "IC+" ? "info" : "default"}
-          />
+          <Badge variant={String(value ?? "").toUpperCase() === "IC+" ? "info" : "secondary"}>
+            {String(value ?? "Unknown")}
+          </Badge>
         ),
       },
       {

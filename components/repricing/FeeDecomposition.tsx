@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@/components/repricing/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { DataTable } from "@/components/repricing/ui/DataTable";
 import {
   formatCurrency,
@@ -25,7 +25,7 @@ export function FeeDecomposition({ data }: FeeDecompositionProps) {
             key: "is_card_present",
             label: "Entry",
             format: (value: unknown) => (
-              <Badge label={value ? "CP" : "CNP"} variant={value ? "success" : "info"} />
+              <Badge variant={value ? "success" : "info"}>{value ? "CP" : "CNP"}</Badge>
             ),
           },
           {

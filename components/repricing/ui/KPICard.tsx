@@ -1,5 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import clsx from "clsx";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface KPICardProps {
   label: string;
@@ -29,18 +31,20 @@ export function KPICard({
   const trendPrefix = trend === "up" ? "↑ " : trend === "down" ? "↓ " : "";
 
   return (
-    <div className="rounded-lg border border-border bg-card p-5">
-      <Icon className="mb-4 h-5 w-5 text-text-tertiary" />
-      <p className="text-xs font-medium text-muted-foreground">{label}</p>
-      <p className={clsx("mt-1 text-3xl font-bold leading-tight text-foreground", valueClassName)}>
-        {value}
-      </p>
-      {subtitle ? (
-        <p className={clsx("mt-2 text-xs", trendColorClasses[trendColor])}>
-          {trendPrefix}
-          {subtitle}
+    <Card className="p-5">
+      <CardContent className="p-0">
+        <Icon className="mb-4 h-5 w-5 text-text-tertiary" />
+        <p className="text-xs font-medium text-muted-foreground">{label}</p>
+        <p className={cn("mt-1 text-3xl font-bold leading-tight text-foreground", valueClassName)}>
+          {value}
         </p>
-      ) : null}
-    </div>
+        {subtitle ? (
+          <p className={cn("mt-2 text-xs", trendColorClasses[trendColor])}>
+            {trendPrefix}
+            {subtitle}
+          </p>
+        ) : null}
+      </CardContent>
+    </Card>
   );
 }

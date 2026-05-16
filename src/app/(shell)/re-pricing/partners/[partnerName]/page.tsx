@@ -1,6 +1,6 @@
 import { Building2, DollarSign, Percent, TrendingUp } from "lucide-react";
 import { MerchantTable } from "@/components/repricing/MerchantTable";
-import { Badge } from "@/components/repricing/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { KPICard } from "@/components/repricing/ui/KPICard";
 import { PageHeader } from "@/components/repricing/ui/PageHeader";
 import { bpsColor, formatBPS, formatCurrency, formatNumber } from "@/lib/repricing/formatters";
@@ -60,10 +60,9 @@ export default async function RePricingPartnerPage({ params }: PartnerPageProps)
           <Percent className="mb-4 h-5 w-5 text-[#9CA3AF]" />
           <p className="text-[13px] font-medium text-[#6B7280]">BPS Variance</p>
           <div className="mt-2">
-            <Badge
-              label={`${partner.bps_variance >= 0 ? "+" : ""}${partner.bps_variance.toFixed(1)}`}
-              variant={partner.bps_variance <= 0 ? "success" : "danger"}
-            />
+            <Badge variant={partner.bps_variance <= 0 ? "success" : "danger"}>
+              {`${partner.bps_variance >= 0 ? "+" : ""}${partner.bps_variance.toFixed(1)}`}
+            </Badge>
           </div>
         </div>
       </div>

@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+
 interface PageHeaderProps {
   title: string;
   subtitle?: string;
@@ -14,12 +16,11 @@ export function PageHeader({ title, subtitle, backHref, actions }: PageHeaderPro
     <div className="mb-6 flex items-start justify-between gap-4">
       <div className="flex items-start gap-3">
         {backHref ? (
-          <Link
-            href={backHref}
-            className="mt-1 rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
+          <Button variant="ghost" size="icon" className="mt-1" asChild>
+            <Link href={backHref}>
+              <ArrowLeft className="size-4" />
+            </Link>
+          </Button>
         ) : null}
         <div>
           <h1 className="text-2xl font-semibold text-foreground">{title}</h1>

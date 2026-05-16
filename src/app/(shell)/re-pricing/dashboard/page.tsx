@@ -1,7 +1,7 @@
 import { MerchantSearch } from "@/components/repricing/MerchantSearch";
 import { PartnerCards } from "@/components/repricing/PartnerCards";
 import { PortfolioKPIs } from "@/components/repricing/PortfolioKPIs";
-import { Badge } from "@/components/repricing/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/repricing/ui/PageHeader";
 import { getPartnerSummary, getPortfolioSummary } from "@/lib/repricing/queries";
 
@@ -20,7 +20,7 @@ export default async function RePricingDashboardPage() {
       <PartnerCards data={partnerData} />
       <div className="flex items-center gap-3">
         <h2 className="text-lg font-semibold text-[#1A1A2E]">Merchants</h2>
-        <Badge label={String(portfolioData.length)} variant="default" />
+        <Badge variant="secondary">{portfolioData.length}</Badge>
       </div>
       <MerchantSearch data={portfolioData} />
     </div>

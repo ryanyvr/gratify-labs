@@ -6,7 +6,7 @@ import { NetworkFeesTable } from "@/components/repricing/NetworkFeesTable";
 import { ScenarioWorkbench } from "@/components/repricing/ScenarioWorkbench";
 import { VolumeDonut } from "@/components/repricing/VolumeDonut";
 import { WaterfallChart } from "@/components/repricing/WaterfallChart";
-import { Badge } from "@/components/repricing/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { KPICard } from "@/components/repricing/ui/KPICard";
 import { PageHeader } from "@/components/repricing/ui/PageHeader";
 import {
@@ -64,9 +64,9 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
       <PageHeader backHref="/re-pricing/dashboard" title={merchant.merchant_name} />
 
       <div className="flex gap-2">
-        <Badge label={merchant.partner_name} variant="info" />
-        <Badge label={`MCC ${merchant.mcc ?? "N/A"}`} variant="default" />
-        <Badge label={merchant.pricing_type ?? "N/A"} variant="default" />
+        <Badge variant="info">{merchant.partner_name}</Badge>
+        <Badge variant="secondary">{`MCC ${merchant.mcc ?? "N/A"}`}</Badge>
+        <Badge variant="secondary">{merchant.pricing_type ?? "N/A"}</Badge>
       </div>
 
       <div className="grid grid-cols-6 gap-4">

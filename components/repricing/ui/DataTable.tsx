@@ -1,5 +1,14 @@
 import type { ReactNode } from "react";
-import clsx from "clsx";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 interface Column<T> {
   key: keyof T | string;
@@ -16,51 +25,51 @@ interface DataTableProps<T> {
 
 export function DataTable<T>({ columns, data, onRowClick }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-border bg-card">
-      <table className="min-w-full">
-        <thead className="bg-muted">
-          <tr>
+    <div className="rounded-lg border border-border bg-card">
+      <Table>
+        <TableHeader className="bg-muted">
+          <TableRow className="hover:bg-muted">
             {columns.map((column) => (
-              <th
+              <TableHead
                 key={String(column.key)}
-                className={clsx(
+                className={cn(
                   "px-4 py-3 text-xs font-semibold text-muted-foreground",
                   column.align === "right" ? "text-right" : "text-left",
                 )}
               >
                 {column.label}
-              </th>
+              </TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {data.map((row, rowIndex) => (
-            <tr
+            <TableRow
               key={rowIndex}
-              className={clsx(
-                "border-b border-border text-sm text-foreground",
-                onRowClick ? "cursor-pointer hover:bg-muted" : "",
+              className={cn(
+                "text-sm text-foreground",
+                onRowClick ? "cursor-pointer" : "",
               )}
               onClick={() => onRowClick?.(row)}
             >
               {columns.map((column) => {
                 const value = (row as Record<string, unknown>)[String(column.key)];
                 return (
-                  <td
+                  <TableCell
                     key={String(column.key)}
-                    className={clsx(
+                    className={cn(
                       "px-4 py-3",
                       column.align === "right" ? "text-right" : "text-left",
                     )}
                   >
                     {column.format ? column.format(value, row) : (value as ReactNode)}
-                  </td>
+                  </TableCell>
                 );
               })}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }
