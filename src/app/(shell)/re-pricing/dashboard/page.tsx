@@ -8,6 +8,7 @@ import { getPartnerSummary, getPortfolioSummary } from "@/lib/repricing/queries"
 export const dynamic = "force-dynamic";
 
 export default async function RePricingDashboardPage() {
+  // TODO: filter portfolio data by usePeriod() — see GRA-56
   const [portfolioData, partnerData] = await Promise.all([
     getPortfolioSummary(),
     getPartnerSummary(),

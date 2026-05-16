@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 
+import { PeriodPills } from "@/components/shell/PeriodPills";
 import { AppSidebar } from "@/components/shell/Sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
@@ -17,7 +18,8 @@ export function ShellChrome({ children }: ShellChromeProps) {
     >
       <AppSidebar />
       <SidebarInset className="min-h-svh flex-1">
-        <header className="flex items-center justify-end border-b border-border-card bg-white px-6 py-3">
+        <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-card px-7">
+          <PeriodPills />
           <div className="flex items-center gap-3">
             <div className="text-right">
               <p className="text-sm font-semibold text-text-primary">Fullsteam</p>

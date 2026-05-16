@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 
+import { PeriodProvider } from "@/components/shell/PeriodContext";
 import { ShellChrome } from "@/components/shell/ShellChrome";
 
 const inter = Inter({
@@ -13,7 +14,9 @@ export default function ShellLayout({
 }>) {
   return (
     <div className={`${inter.className} min-h-screen bg-bg-page text-text-primary antialiased`}>
-      <ShellChrome>{children}</ShellChrome>
+      <PeriodProvider>
+        <ShellChrome>{children}</ShellChrome>
+      </PeriodProvider>
     </div>
   );
 }

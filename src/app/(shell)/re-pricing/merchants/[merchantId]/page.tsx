@@ -40,6 +40,7 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
   const { merchantId: encodedMerchantId } = await params;
   const merchantId = decodeURIComponent(encodedMerchantId);
 
+  // TODO: filter portfolio data by usePeriod() — see GRA-56
   const [{ data: merchant, error }, monthlyData, feeData, networkFees] = await Promise.all([
     getRepricingSupabase()
       .from("mv_portfolio_summary")
