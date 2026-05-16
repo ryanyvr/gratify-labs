@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { SignOutButton } from "@clerk/nextjs";
 
+import { DashboardSignOut } from "./DashboardSignOut";
 import DeniedToast from "./DeniedToast";
 import { getCurrentUser } from "@/lib/supabase/getCurrentUser";
 
@@ -34,7 +34,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         >
           Open shell feature
         </Link>
-        <SignOutButton redirectUrl="/login"><button className="cursor-pointer rounded-md border border-black/10 px-3 py-2 text-sm dark:border-white/10" type="button">Sign out</button></SignOutButton>
+        <DashboardSignOut />
       </div>
     </main>
   );
