@@ -239,7 +239,7 @@ export function WaterfallChart({ data, period }: WaterfallChartProps) {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="border-b">
         <CardTitle>Fee Waterfall</CardTitle>
         <CardAction>
           <ToggleGroup

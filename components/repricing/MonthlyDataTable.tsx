@@ -1,6 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { formatBPS, formatCurrency, formatEffRate, formatNumber } from "@/lib/repricing/formatters";
 import type { MonthlySummary } from "@/lib/repricing/types";
 
@@ -42,66 +51,71 @@ export function MonthlyDataTable({ data }: MonthlyDataTableProps) {
   );
 
   return (
-    <div className="space-y-3">
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="rounded-md border border-border-card bg-card px-3 py-1.5 text-sm font-medium text-text-primary hover:bg-muted"
-        >
-          Data
-        </button>
-      </div>
-
+    <Card>
+      <CardHeader className="border-b">
+        <CardTitle>Monthly Data</CardTitle>
+        <CardAction>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            Data
+          </Button>
+        </CardAction>
+      </CardHeader>
       {isOpen ? (
-        <div className="overflow-x-auto rounded-lg border border-border bg-card">
-          <table className="min-w-full text-sm">
-            <thead className="bg-muted">
-              <tr>
-                {[
-                  "Month",
-                  "Txns",
-                  "Volume",
-                  "Total Fees",
-                  "IC",
-                  "Monthly",
-                  "Network",
-                  "Net Rev",
-                  "EBITDA",
-                  "Eff Rate",
-                  "NR BPS",
-                ].map((header) => (
-                  <th
-                    key={header}
-                    className={`px-3 py-2 font-semibold text-muted-foreground ${
-                      header === "Month" ? "text-left" : "text-right"
-                    }`}
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.month} className="border-t border-border text-foreground">
-                  <td className="px-3 py-2 text-left">{row.month}</td>
-                  <td className="px-3 py-2 text-right">{row.txns}</td>
-                  <td className="px-3 py-2 text-right">{row.volume}</td>
-                  <td className="px-3 py-2 text-right">{row.totalFees}</td>
-                  <td className="px-3 py-2 text-right">{row.ic}</td>
-                  <td className="px-3 py-2 text-right">{row.monthly}</td>
-                  <td className="px-3 py-2 text-right">{row.network}</td>
-                  <td className="px-3 py-2 text-right">{row.netRev}</td>
-                  <td className="px-3 py-2 text-right">{row.ebitda}</td>
-                  <td className="px-3 py-2 text-right">{row.effRate}</td>
-                  <td className="px-3 py-2 text-right">{row.nrBps}</td>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-muted">
+                <tr>
+                  {[
+                    "Month",
+                    "Txns",
+                    "Volume",
+                    "Total Fees",
+                    "IC",
+                    "Monthly",
+                    "Network",
+                    "Net Rev",
+                    "EBITDA",
+                    "Eff Rate",
+                    "NR BPS",
+                  ].map((header) => (
+                    <th
+                      key={header}
+                      className={`px-3 py-2 font-semibold text-muted-foreground ${
+                        header === "Month" ? "text-left" : "text-right"
+                      }`}
+                    >
+                      {header}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map((row) => (
+                  <tr key={row.month} className="border-t border-border text-foreground">
+                    <td className="px-3 py-2 text-left">{row.month}</td>
+                    <td className="px-3 py-2 text-right">{row.txns}</td>
+                    <td className="px-3 py-2 text-right">{row.volume}</td>
+                    <td className="px-3 py-2 text-right">{row.totalFees}</td>
+                    <td className="px-3 py-2 text-right">{row.ic}</td>
+                    <td className="px-3 py-2 text-right">{row.monthly}</td>
+                    <td className="px-3 py-2 text-right">{row.network}</td>
+                    <td className="px-3 py-2 text-right">{row.netRev}</td>
+                    <td className="px-3 py-2 text-right">{row.ebitda}</td>
+                    <td className="px-3 py-2 text-right">{row.effRate}</td>
+                    <td className="px-3 py-2 text-right">{row.nrBps}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
       ) : null}
-    </div>
+    </Card>
   );
 }

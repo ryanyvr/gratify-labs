@@ -1,7 +1,14 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -80,8 +87,13 @@ function ProductSelect({
 export function ScenarioBuilder({ targetBps, scenarios, results, onScenarioChange }: ScenarioBuilderProps) {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="border-b">
         <CardTitle>Scenario Builder</CardTitle>
+        <CardAction>
+          <CardDescription className="text-xs text-muted-foreground">
+            Edit cells to model scenarios
+          </CardDescription>
+        </CardAction>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">

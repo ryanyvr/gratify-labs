@@ -3,7 +3,13 @@
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -73,30 +79,30 @@ Best regards,
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between gap-4 space-y-0">
+      <CardHeader className="border-b">
         <CardTitle>Draft Email</CardTitle>
-        <Select value={selectedScenarioName} onValueChange={setSelectedScenarioName}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {selectable.map((scenario) => (
-              <SelectItem key={scenario.name} value={scenario.name}>
-                {scenario.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <CardAction className="flex items-center gap-2">
+          <Select value={selectedScenarioName} onValueChange={setSelectedScenarioName}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {selectable.map((scenario) => (
+                <SelectItem key={scenario.name} value={scenario.name}>
+                  {scenario.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button type="button" onClick={onCopy}>
+            {copied ? "Copied!" : "Copy to Clipboard"}
+          </Button>
+        </CardAction>
       </CardHeader>
       <CardContent className="space-y-3">
         <pre className="whitespace-pre-wrap rounded-md bg-muted p-4 text-sm text-text-primary">
           {emailText}
         </pre>
-        <div className="flex justify-end">
-          <Button type="button" onClick={onCopy}>
-            {copied ? "Copied!" : "Copy to Clipboard"}
-          </Button>
-        </div>
       </CardContent>
     </Card>
   );

@@ -21,11 +21,12 @@ interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   onRowClick?: (row: T) => void;
+  className?: string;
 }
 
-export function DataTable<T>({ columns, data, onRowClick }: DataTableProps<T>) {
+export function DataTable<T>({ columns, data, onRowClick, className }: DataTableProps<T>) {
   return (
-    <div className="rounded-lg border border-border bg-card">
+    <div className={cn("rounded-lg border border-border bg-card", className)}>
       <Table>
         <TableHeader className="bg-muted">
           <TableRow className="hover:bg-muted">

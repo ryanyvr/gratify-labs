@@ -27,7 +27,7 @@ function formatMonthLabel(value: string): string {
 export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="border-b">
         <CardTitle>Monthly Trend</CardTitle>
       </CardHeader>
       <CardContent>

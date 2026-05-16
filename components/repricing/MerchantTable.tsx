@@ -17,9 +17,10 @@ import type { PortfolioMerchant } from "@/lib/repricing/types";
 
 interface MerchantTableProps {
   data: PortfolioMerchant[];
+  embedded?: boolean;
 }
 
-export function MerchantTable({ data }: MerchantTableProps) {
+export function MerchantTable({ data, embedded }: MerchantTableProps) {
   const router = useRouter();
 
   const columns = useMemo(
@@ -102,6 +103,7 @@ export function MerchantTable({ data }: MerchantTableProps) {
     <DataTable
       columns={columns}
       data={data}
+      className={embedded ? "rounded-none border-0" : undefined}
       onRowClick={(row) =>
         router.push(`/re-pricing/merchants/${encodeURIComponent(row.merchant_id)}`)
       }

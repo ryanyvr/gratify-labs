@@ -2,7 +2,16 @@
 
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
+
 import { MerchantTable } from "./MerchantTable";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import type { PortfolioMerchant } from "@/lib/repricing/types";
 
 interface MerchantSearchProps {
@@ -28,18 +37,25 @@ export function MerchantSearch({ data }: MerchantSearchProps) {
   }, [data, query]);
 
   return (
-    <div className="space-y-4">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-secondary" />
-        <input
-          type="text"
-          placeholder="Search merchants..."
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          className="w-full rounded-lg border border-border-card bg-card py-2 pl-10 pr-4 text-sm text-text-primary placeholder:text-text-secondary focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        />
-      </div>
-      <MerchantTable data={filtered} />
-    </div>
+    <Card>
+      <CardHeader className="border-b">
+        <CardTitle>All Merchants</CardTitle>
+        <CardAction>
+          <div className="relative w-64">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search merchants..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              className="pl-9"
+            />
+          </div>
+        </CardAction>
+      </CardHeader>
+      <CardContent className="p-0">
+        <MerchantTable data={filtered} embedded />
+      </CardContent>
+    </Card>
   );
 }
