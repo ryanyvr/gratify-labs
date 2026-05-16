@@ -23,13 +23,14 @@
   --input: #e5e7eb;
   --ring: #e8573a;
   --radius: 0.5rem;
-  --sidebar-background: #1e1b4b;
-  --sidebar-foreground: #e0e7ff;
+  --sidebar: #ffffff;
+  --sidebar-background: #ffffff;
+  --sidebar-foreground: #6b7280;
   --sidebar-primary: #e8573a;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #312e81;
-  --sidebar-accent-foreground: #e0e7ff;
-  --sidebar-border: #312e81;
+  --sidebar-accent: #ede9fe;
+  --sidebar-accent-foreground: #5b21b6;
+  --sidebar-border: #e5e7eb;
   --sidebar-ring: #e8573a;
 }
 
@@ -53,6 +54,14 @@
   --border: #374151;
   --input: #374151;
   --ring: #e8573a;
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
 @theme inline {
@@ -102,6 +111,7 @@
   --color-chart-green: #22c55e;
   --color-chart-amber: #f59e0b;
   --color-chart-red: #ef4444;
+  --color-sidebar: var(--sidebar);
 }
 
 body {
