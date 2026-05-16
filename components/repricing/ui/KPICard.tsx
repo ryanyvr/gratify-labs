@@ -29,10 +29,10 @@ export function KPICard({
   const trendPrefix = trend === "up" ? "↑ " : trend === "down" ? "↓ " : "";
 
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
-      <Icon className="mb-4 h-5 w-5 text-[#9CA3AF]" />
-      <p className="text-[13px] font-medium text-[#6B7280]">{label}</p>
-      <p className={clsx("mt-1 text-[32px] font-bold leading-tight text-[#1A1A2E]", valueClassName)}>
+    <div className="rounded-lg border border-border bg-card p-5">
+      <Icon className="mb-4 h-5 w-5 text-text-tertiary" />
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      <p className={clsx("mt-1 text-3xl font-bold leading-tight text-foreground", valueClassName)}>
         {value}
       </p>
       {subtitle ? (

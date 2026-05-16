@@ -22,14 +22,14 @@ export function PartnerCards({ data }: PartnerCardsProps) {
           <button
             key={partner.partner_name}
             type="button"
-            className="rounded-lg border border-[#E5E7EB] bg-white p-5 text-left"
+            className="rounded-lg border border-border bg-card p-5 text-left"
             onClick={() =>
               router.push(`/re-pricing/partners/${encodeURIComponent(partner.partner_name)}`)
             }
           >
-            <h3 className="text-lg font-semibold text-[#1A1A2E]">{partner.partner_name}</h3>
-            <p className="text-sm text-[#6B7280]">{partner.mcc_description ?? "N/A"}</p>
-            <div className="mt-4 space-y-2 text-sm text-[#1A1A2E]">
+            <h3 className="text-lg font-semibold text-foreground">{partner.partner_name}</h3>
+            <p className="text-sm text-muted-foreground">{partner.mcc_description ?? "N/A"}</p>
+            <div className="mt-4 space-y-2 text-sm text-foreground">
               <p>{partner.merchant_count} merchants</p>
               <p>{formatCurrency(partner.total_volume)}</p>
             </div>

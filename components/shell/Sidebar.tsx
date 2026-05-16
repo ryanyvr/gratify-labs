@@ -18,8 +18,9 @@ export function Sidebar() {
     pathname === "/dashboard" || pathname.startsWith("/features");
   const isRepricingActive = pathname.startsWith("/re-pricing");
 
+  // ISSUE: [BLOCKING] sidebar-accent tokens (#312e81 / #e0e7ff) differ from prior active state (#EDE9FE / #5B21B6) — visual regression until tokens are updated in globals.css
   return (
-    <aside className="fixed inset-y-0 left-0 flex w-[260px] flex-col border-r border-border-card bg-white">
+    <aside className="fixed inset-y-0 left-0 flex w-[260px] flex-col border-r border-border-card bg-card">
       <div className="border-b border-border-card px-6 py-6">
         <img
           src="https://cdn.prod.website-files.com/68a8894d1825fae84cef756c/68a88a91a869822cd1e2c5dd_Blue%20logo%20-%20no%20background-p-500.png"
@@ -37,7 +38,7 @@ export function Sidebar() {
           className={clsx(
             "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
             isLabsActive
-              ? "bg-[#EDE9FE] text-[#5B21B6]"
+              ? "bg-sidebar-accent text-sidebar-accent-foreground"
               : "text-text-secondary hover:bg-gray-100 hover:text-text-primary",
           )}
         >
@@ -55,7 +56,7 @@ export function Sidebar() {
           className={clsx(
             "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
             isRepricingActive
-              ? "bg-[#EDE9FE] text-[#5B21B6]"
+              ? "bg-sidebar-accent text-sidebar-accent-foreground"
               : "text-text-secondary hover:bg-gray-100 hover:text-text-primary",
           )}
         >

@@ -24,8 +24,8 @@ function formatMonthLabel(value: string): string {
 
 export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
-      <h3 className="mb-4 text-base font-semibold text-[#1A1A2E]">Monthly Trend</h3>
+    <div className="rounded-lg border border-border bg-card p-5">
+      <h3 className="mb-4 text-base font-semibold text-foreground">Monthly Trend</h3>
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data}>

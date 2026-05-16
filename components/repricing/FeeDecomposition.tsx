@@ -16,8 +16,8 @@ interface FeeDecompositionProps {
 
 export function FeeDecomposition({ data }: FeeDecompositionProps) {
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
-      <h3 className="mb-4 text-base font-semibold text-[#1A1A2E]">Fee Decomposition by Card Brand</h3>
+    <div className="rounded-lg border border-border bg-card p-5">
+      <h3 className="mb-4 text-base font-semibold text-foreground">Fee Decomposition by Card Brand</h3>
       <DataTable
         columns={[
           { key: "card_brand", label: "Card Brand" },

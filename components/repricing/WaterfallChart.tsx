@@ -236,10 +236,10 @@ export function WaterfallChart({ data, period }: WaterfallChartProps) {
   );
 
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-base font-semibold text-[#1A1A2E]">Fee Waterfall</h3>
-        <div className="flex items-center gap-2 rounded-md bg-[#F8FAFC] p-1">
+        <h3 className="text-base font-semibold text-foreground">Fee Waterfall</h3>
+        <div className="flex items-center gap-2 rounded-md bg-muted p-1">
           {PERIOD_OPTIONS.map((option) => {
             const isActive = option.value === selectedPeriod;
             return (

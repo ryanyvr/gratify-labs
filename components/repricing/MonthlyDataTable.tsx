@@ -47,16 +47,16 @@ export function MonthlyDataTable({ data }: MonthlyDataTableProps) {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="rounded-md border border-border-card bg-white px-3 py-1.5 text-sm font-medium text-text-primary hover:bg-[#F8FAFC]"
+          className="rounded-md border border-border-card bg-card px-3 py-1.5 text-sm font-medium text-text-primary hover:bg-muted"
         >
           Data
         </button>
       </div>
 
       {isOpen ? (
-        <div className="overflow-x-auto rounded-lg border border-[#E5E7EB] bg-white">
+        <div className="overflow-x-auto rounded-lg border border-border bg-card">
           <table className="min-w-full text-sm">
-            <thead className="bg-[#F9FAFB]">
+            <thead className="bg-muted">
               <tr>
                 {[
                   "Month",
@@ -73,7 +73,7 @@ export function MonthlyDataTable({ data }: MonthlyDataTableProps) {
                 ].map((header) => (
                   <th
                     key={header}
-                    className={`px-3 py-2 font-semibold text-[#6B7280] ${
+                    className={`px-3 py-2 font-semibold text-muted-foreground ${
                       header === "Month" ? "text-left" : "text-right"
                     }`}
                   >
@@ -84,7 +84,7 @@ export function MonthlyDataTable({ data }: MonthlyDataTableProps) {
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.month} className="border-t border-[#E5E7EB] text-[#1A1A2E]">
+                <tr key={row.month} className="border-t border-border text-foreground">
                   <td className="px-3 py-2 text-left">{row.month}</td>
                   <td className="px-3 py-2 text-right">{row.txns}</td>
                   <td className="px-3 py-2 text-right">{row.volume}</td>

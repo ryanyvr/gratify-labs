@@ -17,8 +17,8 @@ export function NetworkFeesTable({ data }: NetworkFeesTableProps) {
   const totalFees = data.reduce((sum, row) => sum + row.total_fee, 0);
 
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
-      <h3 className="mb-4 text-base font-semibold text-[#1A1A2E]">Network & Service Fees</h3>
+    <div className="rounded-lg border border-border bg-card p-5">
+      <h3 className="mb-4 text-base font-semibold text-foreground">Network & Service Fees</h3>
       <DataTable
         columns={[
           { key: "fee_description", label: "Fee Description" },
@@ -51,7 +51,7 @@ export function NetworkFeesTable({ data }: NetworkFeesTableProps) {
         ]}
         data={data}
       />
-      <div className="mt-3 flex justify-end border-t border-[#E5E7EB] pt-3 text-sm font-semibold text-[#1A1A2E]">
+      <div className="mt-3 flex justify-end border-t border-border pt-3 text-sm font-semibold text-foreground">
         Total: {formatCurrencyExact(totalFees)}
       </div>
     </div>

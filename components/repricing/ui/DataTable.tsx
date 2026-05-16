@@ -16,15 +16,15 @@ interface DataTableProps<T> {
 
 export function DataTable<T>({ columns, data, onRowClick }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-[#E5E7EB] bg-white">
+    <div className="overflow-x-auto rounded-lg border border-border bg-card">
       <table className="min-w-full">
-        <thead className="bg-[#F9FAFB]">
+        <thead className="bg-muted">
           <tr>
             {columns.map((column) => (
               <th
                 key={String(column.key)}
                 className={clsx(
-                  "px-4 py-3 text-[13px] font-semibold text-[#6B7280]",
+                  "px-4 py-3 text-xs font-semibold text-muted-foreground",
                   column.align === "right" ? "text-right" : "text-left",
                 )}
               >
@@ -38,8 +38,8 @@ export function DataTable<T>({ columns, data, onRowClick }: DataTableProps<T>) {
             <tr
               key={rowIndex}
               className={clsx(
-                "border-b border-[#E5E7EB] text-sm text-[#1A1A2E]",
-                onRowClick ? "cursor-pointer hover:bg-[#F9FAFB]" : "",
+                "border-b border-border text-sm text-foreground",
+                onRowClick ? "cursor-pointer hover:bg-muted" : "",
               )}
               onClick={() => onRowClick?.(row)}
             >

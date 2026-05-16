@@ -34,12 +34,12 @@ function signClass(value: number): string {
 
 export function ScenarioBuilder({ targetBps, scenarios, results, onScenarioChange }: ScenarioBuilderProps) {
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
-      <h3 className="mb-4 text-base font-semibold text-[#1A1A2E]">Scenario Builder</h3>
+    <div className="rounded-lg border border-border bg-card p-5">
+      <h3 className="mb-4 text-base font-semibold text-foreground">Scenario Builder</h3>
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse text-sm">
           <thead>
-            <tr className="border-b border-border-card bg-[#F8FAFC]">
+            <tr className="border-b border-border-card bg-muted">
               <th className="p-3 text-left font-semibold text-text-primary">Metric</th>
               {COLUMNS.map((column) => (
                 <th key={column.key} className="p-3 text-right font-semibold text-text-primary">
@@ -144,7 +144,8 @@ export function ScenarioBuilder({ targetBps, scenarios, results, onScenarioChang
                 </td>
               ))}
             </tr>
-            <tr className="border-y-2 border-[#D1D5DB] bg-[#F8FAFC]">
+            {/* ISSUE: [NON-BLOCKING] border-[#D1D5DB] had no token mapping — using border-border (slightly lighter) */}
+            <tr className="border-y-2 border-border bg-muted">
               <td className="p-3 font-semibold text-text-primary">TOTAL FS REVENUE</td>
               {COLUMNS.map((column) => (
                 <td key={column.key} className="p-3 text-right font-semibold">

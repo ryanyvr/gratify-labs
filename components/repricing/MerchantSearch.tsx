@@ -36,7 +36,7 @@ export function MerchantSearch({ data }: MerchantSearchProps) {
           placeholder="Search merchants..."
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          className="w-full rounded-lg border border-border-card bg-white py-2 pl-10 pr-4 text-sm text-text-primary placeholder:text-text-secondary focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-lg border border-border-card bg-card py-2 pl-10 pr-4 text-sm text-text-primary placeholder:text-text-secondary focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
       <MerchantTable data={filtered} />

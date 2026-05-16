@@ -62,9 +62,9 @@ Best regards,
   };
 
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-base font-semibold text-[#1A1A2E]">Draft Email</h3>
+        <h3 className="text-base font-semibold text-foreground">Draft Email</h3>
         <select
           value={selectedScenarioName}
           onChange={(event) => setSelectedScenarioName(event.target.value)}
@@ -77,15 +77,16 @@ Best regards,
           ))}
         </select>
       </div>
-      <pre className="whitespace-pre-wrap rounded-md bg-[#F8FAFC] p-4 text-sm text-text-primary">
+      <pre className="whitespace-pre-wrap rounded-md bg-muted p-4 text-sm text-text-primary">
         {emailText}
       </pre>
       <div className="mt-3 flex items-center justify-end gap-3">
         {copied ? <p className="text-xs text-green-600">Copied to clipboard</p> : null}
+        {/* TODO: design decision — should this be bg-primary (orange) or a new variant? */}
         <button
           type="button"
           onClick={onCopy}
-          className="rounded-md bg-[#0171FF] px-3 py-2 text-sm font-medium text-white hover:bg-[#005ed6]"
+          className="rounded-md bg-[#0171FF] px-3 py-2 text-sm font-medium text-white hover:opacity-90"
         >
           Copy to Clipboard
         </button>

@@ -19,8 +19,8 @@ export function VolumeDonut({ data }: VolumeDonutProps) {
   ];
 
   return (
-    <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
-      <h3 className="mb-4 text-base font-semibold text-[#1A1A2E]">Card Present vs Card Not Present</h3>
+    <div className="rounded-lg border border-border bg-card p-5">
+      <h3 className="mb-4 text-base font-semibold text-foreground">Card Present vs Card Not Present</h3>
       <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -46,7 +46,7 @@ export function VolumeDonut({ data }: VolumeDonutProps) {
           </PieChart>
         </ResponsiveContainer>
       </div>
-      <div className="mt-3 space-y-1 text-sm text-[#6B7280]">
+      <div className="mt-3 space-y-1 text-sm text-muted-foreground">
         <p>CP: {formatCurrency(cpVolume)}</p>
         <p>CNP: {formatCurrency(cnpVolume)}</p>
       </div>
