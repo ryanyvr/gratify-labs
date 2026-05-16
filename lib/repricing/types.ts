@@ -22,6 +22,8 @@ export interface PortfolioMerchant {
   last_txn_date: string;
   months_active: number;
   total_network_fees: number;
+  target_bps?: number | null;
+  mcc_description?: string | null;
 }
 
 export interface PartnerSummary {
