@@ -88,7 +88,7 @@ export function PartnerCards({ data }: PartnerCardsProps) {
                   />
                 </div>
                 <div className="mt-1 text-xs text-muted-foreground">
-                  {Math.abs(gap).toFixed(1)} BPS {gap > 0 ? "above" : "under"} target
+                  {gap.toFixed(1)} BPS {gap > 0 ? "above" : "under"} target
                 </div>
               </div>
             </CardContent>
