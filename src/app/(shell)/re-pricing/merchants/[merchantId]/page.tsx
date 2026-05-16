@@ -1,4 +1,3 @@
-import { DollarSign, Hash, Percent, Receipt, Target, TrendingUp } from "lucide-react";
 import { FeeDecomposition } from "@/components/repricing/FeeDecomposition";
 import { MonthlyDataTable } from "@/components/repricing/MonthlyDataTable";
 import { MonthlyTrendChart } from "@/components/repricing/MonthlyTrendChart";
@@ -69,24 +68,22 @@ export default async function RePricingMerchantPage({ params }: MerchantPageProp
         <Badge variant="secondary">{merchant.pricing_type ?? "N/A"}</Badge>
       </div>
 
-      <div className="grid grid-cols-6 gap-4">
-        <KPICard label="Volume" value={formatCurrency(merchant.volume)} icon={DollarSign} />
-        <KPICard label="Transactions" value={formatNumber(merchant.txn_count)} icon={Hash} />
-        <KPICard label="Avg Ticket" value={formatCurrencyExact(merchant.avg_ticket)} icon={Receipt} />
-        <KPICard label="Eff Rate" value={formatEffRate(allInEffRate)} icon={Percent} />
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <KPICard label="Volume" value={formatCurrency(merchant.volume)} />
+        <KPICard label="Transactions" value={formatNumber(merchant.txn_count)} />
+        <KPICard label="Avg Ticket" value={formatCurrencyExact(merchant.avg_ticket)} />
+        <KPICard label="Eff Rate" value={formatEffRate(allInEffRate)} />
         <KPICard
           label="Net Revenue"
           value={formatCurrency(merchant.net_revenue)}
           valueClassName={merchant.net_revenue >= 0 ? "text-green-600" : "text-red-600"}
-          icon={TrendingUp}
         />
         <KPICard
           label="NR BPS"
           value={formatBPS(nrBps)}
           valueClassName={gapToTarget >= 0 ? "text-green-600" : "text-red-600"}
           subtitle={`Gap to target: ${formatBPS(gapToTarget)}`}
-          trendColor={gapToTarget >= 0 ? "green" : "red"}
-          icon={Target}
+          subtitleClassName={gapToTarget >= 0 ? "text-green-600" : "text-red-600"}
         />
       </div>
 

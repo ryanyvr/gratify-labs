@@ -1,4 +1,4 @@
-import { Building2, DollarSign, Percent, TrendingUp } from "lucide-react";
+import { Percent } from "lucide-react";
 import { MerchantTable } from "@/components/repricing/MerchantTable";
 import { Badge } from "@/components/ui/badge";
 import { KPICard } from "@/components/repricing/ui/KPICard";
@@ -43,18 +43,13 @@ export default async function RePricingPartnerPage({ params }: PartnerPageProps)
         subtitle={partner.mcc_description ?? undefined}
       />
 
-      <div className="grid grid-cols-4 gap-5">
-        <KPICard
-          label="Merchants"
-          value={formatNumber(partner.merchant_count)}
-          icon={Building2}
-        />
-        <KPICard label="Total Volume" value={formatCurrency(partner.total_volume)} icon={DollarSign} />
+      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+        <KPICard label="Merchants" value={formatNumber(partner.merchant_count)} />
+        <KPICard label="Total Volume" value={formatCurrency(partner.total_volume)} />
         <KPICard
           label="Actual BPS"
           value={formatBPS(partner.actual_bps)}
           valueClassName={bpsColor(partner.actual_bps)}
-          icon={TrendingUp}
         />
         <div className="rounded-lg border border-[#E5E7EB] bg-white p-5">
           <Percent className="mb-4 h-5 w-5 text-[#9CA3AF]" />
