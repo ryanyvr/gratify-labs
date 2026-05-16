@@ -1,7 +1,27 @@
 "use client";
 
-import { PRODUCTS, type Scenario, type ScenarioResult } from "@/lib/repricing/scenario";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { formatBPS, formatCurrency, formatPercent } from "@/lib/repricing/formatters";
+import { PRODUCTS, type Scenario, type ScenarioResult } from "@/lib/repricing/scenario";
+import { cn } from "@/lib/utils";
+
 interface ScenarioBuilderProps {
   targetBps: number | null;
   scenarios: Record<EditableScenarioKey, Scenario>;
@@ -20,10 +40,12 @@ const COLUMNS: Array<{ key: ScenarioKey; label: string }> = [
   { key: "counter", label: "Counter" },
 ];
 
-function approvalClass(approval: string): string {
-  if (approval === "VP APPROVAL") return "bg-red-100 text-red-700";
-  if (approval === "MGR APPROVAL") return "bg-amber-100 text-amber-700";
-  return "bg-green-100 text-green-700";
+const EDITABLE_KEYS = ["scenarioA", "scenarioB", "scenarioC", "counter"] as const;
+
+function approvalVariant(approval: string): "success" | "warning" | "danger" {
+  if (approval === "VP APPROVAL") return "danger";
+  if (approval === "MGR APPROVAL") return "warning";
+  return "success";
 }
 
 function signClass(value: number): string {
@@ -32,194 +54,222 @@ function signClass(value: number): string {
   return "text-text-primary";
 }
 
+function ProductSelect({
+  value,
+  onValueChange,
+}: {
+  value: string;
+  onValueChange: (value: string) => void;
+}) {
+  return (
+    <Select value={value} onValueChange={onValueChange}>
+      <SelectTrigger className="w-full text-xs">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {PRODUCTS.map((product) => (
+          <SelectItem key={product.name} value={product.name}>
+            {product.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
 export function ScenarioBuilder({ targetBps, scenarios, results, onScenarioChange }: ScenarioBuilderProps) {
   return (
-    <div className="rounded-lg border border-border bg-card p-5">
-      <h3 className="mb-4 text-base font-semibold text-foreground">Scenario Builder</h3>
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse text-sm">
-          <thead>
-            <tr className="border-b border-border-card bg-muted">
-              <th className="p-3 text-left font-semibold text-text-primary">Metric</th>
-              {COLUMNS.map((column) => (
-                <th key={column.key} className="p-3 text-right font-semibold text-text-primary">
-                  {column.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Margin Adjustment (%)</td>
-              <td className="p-3 text-right text-text-secondary">-</td>
-              {(["scenarioA", "scenarioB", "scenarioC", "counter"] as const).map((key) => (
-                <td key={key} className="p-3 text-right">
-                  <input
-                    type="number"
-                    value={scenarios[key].marginPct}
-                    onChange={(event) =>
-                      onScenarioChange(key, "marginPct", Number(event.target.value || 0))
-                    }
-                    className="w-24 rounded border border-border-card px-2 py-1 text-right"
-                  />
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Per-Txn Fee ($)</td>
-              <td className="p-3 text-right text-text-secondary">-</td>
-              {(["scenarioA", "scenarioB", "scenarioC", "counter"] as const).map((key) => (
-                <td key={key} className="p-3 text-right">
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={scenarios[key].txnFee}
-                    onChange={(event) =>
-                      onScenarioChange(key, "txnFee", Number(event.target.value || 0))
-                    }
-                    className="w-24 rounded border border-border-card px-2 py-1 text-right"
-                  />
-                </td>
-              ))}
-            </tr>
-            {(["p1", "p2", "p3"] as const).map((slot, index) => (
-              <tr key={slot} className="border-b border-border-card">
-                <td className="p-3 font-medium text-text-primary">{`Product ${index + 1}`}</td>
-                <td className="p-3 text-right text-text-secondary">None</td>
-                {(["scenarioA", "scenarioB", "scenarioC", "counter"] as const).map((key) => (
-                  <td key={key} className="p-3 text-right">
-                    <select
-                      value={scenarios[key][slot]}
-                      onChange={(event) => onScenarioChange(key, slot, event.target.value)}
-                      className="w-full rounded border border-border-card px-2 py-1 text-xs"
-                    >
-                      {PRODUCTS.map((product) => (
-                        <option key={product.name} value={product.name}>
-                          {product.label}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
+    <Card>
+      <CardHeader>
+        <CardTitle>Scenario Builder</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="bg-muted">
+              <TableRow className="hover:bg-muted">
+                <TableHead className="p-3 text-left font-semibold text-text-primary">Metric</TableHead>
+                {COLUMNS.map((column) => (
+                  <TableHead
+                    key={column.key}
+                    className="p-3 text-right font-semibold text-text-primary"
+                  >
+                    {column.label}
+                  </TableHead>
                 ))}
-              </tr>
-            ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Margin Adjustment (%)</TableCell>
+                <TableCell className="p-3 text-right text-text-secondary">-</TableCell>
+                {EDITABLE_KEYS.map((key) => (
+                  <TableCell key={key} className="p-3 text-right">
+                    <Input
+                      type="number"
+                      className="ml-auto w-24 text-right"
+                      value={scenarios[key].marginPct}
+                      onChange={(event) =>
+                        onScenarioChange(key, "marginPct", Number(event.target.value || 0))
+                      }
+                    />
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Per-Txn Fee ($)</TableCell>
+                <TableCell className="p-3 text-right text-text-secondary">-</TableCell>
+                {EDITABLE_KEYS.map((key) => (
+                  <TableCell key={key} className="p-3 text-right">
+                    <Input
+                      type="number"
+                      step="0.01"
+                      className="ml-auto w-24 text-right"
+                      value={scenarios[key].txnFee}
+                      onChange={(event) =>
+                        onScenarioChange(key, "txnFee", Number(event.target.value || 0))
+                      }
+                    />
+                  </TableCell>
+                ))}
+              </TableRow>
+              {(["p1", "p2", "p3"] as const).map((slot, index) => (
+                <TableRow key={slot}>
+                  <TableCell className="p-3 font-medium text-text-primary">{`Product ${index + 1}`}</TableCell>
+                  <TableCell className="p-3 text-right text-text-secondary">None</TableCell>
+                  {EDITABLE_KEYS.map((key) => (
+                    <TableCell key={key} className="p-3 text-right">
+                      <ProductSelect
+                        value={scenarios[key][slot]}
+                        onValueChange={(value) => onScenarioChange(key, slot, value)}
+                      />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
 
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">New Effective Rate</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  {formatPercent(results[column.key].newAllInER)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">BPS Change</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className={`p-3 text-right ${signClass(results[column.key].bpsChange)}`}>
-                  {formatBPS(results[column.key].bpsChange)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">FS Revenue from Markup ($)</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  {formatCurrency(results[column.key].mkRev)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">FS Revenue from Per-Txn ($)</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  {formatCurrency(results[column.key].txRev)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Total Product Revenue</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  {formatCurrency(results[column.key].prodRev)}
-                </td>
-              ))}
-            </tr>
-            {/* ISSUE: [NON-BLOCKING] border-[#D1D5DB] had no token mapping — using border-border (slightly lighter) */}
-            <tr className="border-y-2 border-border bg-muted">
-              <td className="p-3 font-semibold text-text-primary">TOTAL FS REVENUE</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right font-semibold">
-                  {formatCurrency(results[column.key].totRev)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Revenue Change ($)</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className={`p-3 text-right ${signClass(results[column.key].chg)}`}>
-                  {formatCurrency(results[column.key].chg)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Revenue Change (%)</td>
-              {COLUMNS.map((column) => (
-                <td
-                  key={column.key}
-                  className={`p-3 text-right ${signClass(results[column.key].revChangePct)}`}
-                >
-                  {formatPercent(results[column.key].revChangePct)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Margin Compression</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  {formatPercent(results[column.key].comp)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Target Net Rev BPS</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  {formatBPS(targetBps ?? 0)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">New Net Rev BPS</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  {formatBPS(results[column.key].newNrBps)}
-                </td>
-              ))}
-            </tr>
-            <tr className="border-b border-border-card">
-              <td className="p-3 font-medium text-text-primary">Gap to Target</td>
-              {COLUMNS.map((column) => {
-                const gap = results[column.key].newNrBps - (targetBps ?? 0);
-                return (
-                  <td key={column.key} className={`p-3 text-right ${signClass(gap)}`}>
-                    {formatBPS(gap)}
-                  </td>
-                );
-              })}
-            </tr>
-            <tr>
-              <td className="p-3 font-medium text-text-primary">APPROVAL</td>
-              {COLUMNS.map((column) => (
-                <td key={column.key} className="p-3 text-right">
-                  <span className={`rounded px-2 py-1 text-xs font-semibold ${approvalClass(results[column.key].approval)}`}>
-                    {results[column.key].approval}
-                  </span>
-                </td>
-              ))}
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">New Effective Rate</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    {formatPercent(results[column.key].newAllInER)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">BPS Change</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell
+                    key={column.key}
+                    className={cn("p-3 text-right", signClass(results[column.key].bpsChange))}
+                  >
+                    {formatBPS(results[column.key].bpsChange)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">FS Revenue from Markup ($)</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    {formatCurrency(results[column.key].mkRev)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">FS Revenue from Per-Txn ($)</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    {formatCurrency(results[column.key].txRev)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Total Product Revenue</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    {formatCurrency(results[column.key].prodRev)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow className="border-y-2 border-border bg-muted hover:bg-muted">
+                <TableCell className="p-3 font-semibold text-text-primary">TOTAL FS REVENUE</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right font-semibold">
+                    {formatCurrency(results[column.key].totRev)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Revenue Change ($)</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell
+                    key={column.key}
+                    className={cn("p-3 text-right", signClass(results[column.key].chg))}
+                  >
+                    {formatCurrency(results[column.key].chg)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Revenue Change (%)</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell
+                    key={column.key}
+                    className={cn("p-3 text-right", signClass(results[column.key].revChangePct))}
+                  >
+                    {formatPercent(results[column.key].revChangePct)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Margin Compression</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    {formatPercent(results[column.key].comp)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Target Net Rev BPS</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    {formatBPS(targetBps ?? 0)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">New Net Rev BPS</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    {formatBPS(results[column.key].newNrBps)}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">Gap to Target</TableCell>
+                {COLUMNS.map((column) => {
+                  const gap = results[column.key].newNrBps - (targetBps ?? 0);
+                  return (
+                    <TableCell key={column.key} className={cn("p-3 text-right", signClass(gap))}>
+                      {formatBPS(gap)}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+              <TableRow>
+                <TableCell className="p-3 font-medium text-text-primary">APPROVAL</TableCell>
+                {COLUMNS.map((column) => (
+                  <TableCell key={column.key} className="p-3 text-right">
+                    <Badge variant={approvalVariant(results[column.key].approval)}>
+                      {results[column.key].approval}
+                    </Badge>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
