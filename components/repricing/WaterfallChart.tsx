@@ -12,6 +12,8 @@ import {
   Tooltip,
   type Plugin,
 } from "chart.js";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { formatCurrency } from "@/lib/repricing/formatters";
 import type { MonthlySummary } from "@/lib/repricing/types";
 
@@ -236,32 +238,32 @@ export function WaterfallChart({ data, period }: WaterfallChartProps) {
   );
 
   return (
-    <div className="rounded-lg border border-border bg-card p-5">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-base font-semibold text-foreground">Fee Waterfall</h3>
-        <div className="flex items-center gap-2 rounded-md bg-muted p-1">
-          {PERIOD_OPTIONS.map((option) => {
-            const isActive = option.value === selectedPeriod;
-            return (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setSelectedPeriod(option.value)}
-                className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
-                  isActive
-                    ? "bg-white text-text-primary shadow-sm"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
+    <Card>
+      <CardHeader>
+        <CardTitle>Fee Waterfall</CardTitle>
+        <CardAction>
+          <ToggleGroup
+            type="single"
+            value={String(selectedPeriod)}
+            onValueChange={(value) => {
+              if (value) {
+                setSelectedPeriod(Number(value) as PeriodOption);
+              }
+            }}
+          >
+            {PERIOD_OPTIONS.map((option) => (
+              <ToggleGroupItem key={option.value} value={String(option.value)} className="text-xs">
                 {option.label}
-              </button>
-            );
-          })}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <div className="h-80">
+          <Bar data={chartData} options={options} plugins={[connectorPlugin]} />
         </div>
-      </div>
-      <div className="h-80">
-        <Bar data={chartData} options={options} plugins={[connectorPlugin]} />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

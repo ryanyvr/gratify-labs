@@ -10,6 +10,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatBPS, formatCurrency } from "@/lib/repricing/formatters";
 import type { MonthlySummary } from "@/lib/repricing/types";
 
@@ -24,41 +26,45 @@ function formatMonthLabel(value: string): string {
 
 export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
   return (
-    <div className="rounded-lg border border-border bg-card p-5">
-      <h3 className="mb-4 text-base font-semibold text-foreground">Monthly Trend</h3>
-      <div className="h-80">
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data}>
-            <XAxis dataKey="month" tickFormatter={formatMonthLabel} />
-            <YAxis
-              yAxisId="left"
-              tickFormatter={(value) => `$${Math.round(value / 1000)}K`}
-            />
-            <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}`} />
-            <Tooltip
-              formatter={(value, name) => {
-                const n = typeof value === "number" ? value : Number(value);
-                if (name === "volume") return [formatCurrency(n), "Volume"];
-                if (name === "markup_bps") return [formatBPS(n), "Markup BPS"];
-                if (name === "monthly_fees") return [formatCurrency(n), "Monthly Fees"];
-                if (name === "network_costs") return [formatCurrency(n), "Network Costs"];
-                if (name === "net_revenue") return [formatCurrency(n), "Net Revenue"];
-                return [String(value ?? ""), String(name ?? "")];
-              }}
-              labelFormatter={(label) => formatMonthLabel(String(label))}
-            />
-            <Bar dataKey="volume" fill="#4A8FE7" yAxisId="left" />
-            <Line dataKey="markup_bps" stroke="#E8573A" yAxisId="right" strokeWidth={2} />
-            <ReferenceLine
-              y={65}
-              yAxisId="right"
-              stroke="#9CA3AF"
-              strokeDasharray="5 5"
-              label="Target 65 BPS"
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Monthly Trend</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={data}>
+              <XAxis dataKey="month" tickFormatter={formatMonthLabel} />
+              <YAxis
+                yAxisId="left"
+                tickFormatter={(value) => `$${Math.round(value / 1000)}K`}
+              />
+              <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}`} />
+              <Tooltip
+                formatter={(value, name) => {
+                  const n = typeof value === "number" ? value : Number(value);
+                  if (name === "volume") return [formatCurrency(n), "Volume"];
+                  if (name === "markup_bps") return [formatBPS(n), "Markup BPS"];
+                  if (name === "monthly_fees") return [formatCurrency(n), "Monthly Fees"];
+                  if (name === "network_costs") return [formatCurrency(n), "Network Costs"];
+                  if (name === "net_revenue") return [formatCurrency(n), "Net Revenue"];
+                  return [String(value ?? ""), String(name ?? "")];
+                }}
+                labelFormatter={(label) => formatMonthLabel(String(label))}
+              />
+              <Bar dataKey="volume" fill="#4A8FE7" yAxisId="left" />
+              <Line dataKey="markup_bps" stroke="#E8573A" yAxisId="right" strokeWidth={2} />
+              <ReferenceLine
+                y={65}
+                yAxisId="right"
+                stroke="#9CA3AF"
+                strokeDasharray="5 5"
+                label="Target 65 BPS"
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
